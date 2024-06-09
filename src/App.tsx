@@ -7,13 +7,34 @@ import { Checkbox } from './react-aria/Checkbox'
 import './App.css'
 import { OutputSelector } from './components/OutputSelector'
 import { InputSelector } from './components/InputSelector'
+import { useSpotifyLogin } from './api/spotify'
+import { Input, TextArea } from './react-aria/Field'
+import { useState } from 'react'
 
 function App() {
+  const {
+    authorized,
+    authorizeWithSpotify,
+    logout,
+  } = useSpotifyLogin()
 
+  const [output, setOutput] = useState<string>()
+
+  if (!authorized) {
+    return (
+      <Button onPress={authorizeWithSpotify}>
+        Log into Spotify
+      </Button>
+    )
+  }
   return (
     <>
-    <InputSelector/>
-      <OutputSelector/>
+      <Button onPress={logout}>
+        Logout
+      </Button>
+      <InputSelector/>
+      <OutputSelector setOutput={setOutput} />
+      <TextArea className="w-full min-h-80" defaultValue={output} />
     </>
   )
 }
