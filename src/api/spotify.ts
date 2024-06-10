@@ -1,6 +1,5 @@
-import { SpotifyApi } from "@spotify/web-api-ts-sdk"
+import { MaxInt, Page, SpotifyApi } from "@spotify/web-api-ts-sdk"
 import { useEffect, useState } from "react"
-
 
 const redirectUrl = window.location.origin        // your redirect URL - must be localhost URL and/or HTTPS
 export const sdk = SpotifyApi.withUserAuthorization(
@@ -12,61 +11,32 @@ export const sdk = SpotifyApi.withUserAuthorization(
 export const useSpotifyLogin = () => {
   const [authorized, setAuthorized] = useState(false)
 
-  useEffect(() => {
 
+  useEffect(() => {
+    sdk.getAccessToken().then((token) => {
+      if (token) {
+        setAuthorized(true)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
     const args = new URLSearchParams(window.location.search)
     const code = args.get('code')
-    let pollingTimeout: number
 
-    if (code) {
-      if (!authorized) {
-        // I'm not fully sure why we have to authorize a second time
-        // but apparently its needed?
-        sdk.getAccessToken().then((token) => {
-          console.log('found ', token)
-          if (!token) {
-            authorizeWithSpotify()
-          } else {
-            setAuthorized(true)
-          }
-        })
-      }
-    }
-    return () => {
-      clearInterval(pollingTimeout)
+    if (code &&!authorized) {
+      // I'm not fully sure why we have to authorize a second time
+      // but apparently its needed?
+      sdk.getAccessToken().then((token) => {
+        if (!token) {
+          authorizeWithSpotify()
+        }
+      })
     }
   }, [authorized])
 
-  // useEffect(() => {
-
-  //   const args = new URLSearchParams(window.location.search)
-  //   const code = args.get('code')
-  //   if (code) {
-  //     setAuthorized(true)
-  //   }
-  // //     // Remove code from URL so we can refresh correctly.
-  //     const url = new URL(window.location.href)
-  //     url.searchParams.delete("code")
-
-
-  // //     // setAuthorized(true)
-  // //     (async () => {
-  // //       const token = await sdk.getAccessToken()
-  // //       console.log(`(wouter left this in) token`, token)
-  // //       setAuthorized(token !== null)
-
-  //       const updatedUrl = url.search ? url.href : url.href.replace('?', '')
-  //       window.history.replaceState({}, document.title, updatedUrl)
-  // //     })()
-  // //   }
-  // }, [])
-
   const authorizeWithSpotify = async () => {
-    const { authenticated, accessToken } = await sdk.authenticate()
-    console.log(`(wouter left this in) authenticated`, authenticated);
-    console.log(`(wouter left this in) accessToken`, accessToken);
-
-    setAuthorized(authenticated)
+    await sdk.authenticate()
   }
 
   const logout = async () => {
@@ -79,4 +49,23 @@ export const useSpotifyLogin = () => {
     authorizeWithSpotify,
     logout
   }
+}
+
+export const MAX_COUNT = 50
+export const getAll = async <TItem,>(endpoint: (limit?: MaxInt<typeof MAX_COUNT>, offset?: number) => Promise<Page<TItem>>) => {
+  const items: TItem[] = []
+
+  const fetchPage = async (offset = 0) => {
+    console.log(`Fetching page ${(1 + offset / MAX_COUNT).toFixed(0)}`)
+    const response = await endpoint(MAX_COUNT, offset)
+    items.push(...response.items)
+
+    if (response.next) {
+      await fetchPage(offset + MAX_COUNT)
+    }
+  }
+
+  // kick off fetch of first page
+  await fetchPage()
+  return items
 }

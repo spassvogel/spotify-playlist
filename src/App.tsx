@@ -1,15 +1,10 @@
-import { Toolbar } from './react-aria/Toolbar'
-import { ToggleButton } from './react-aria/ToggleButton'
-import { Bold, Italic, Underline } from 'lucide-react'
 import { Button } from './react-aria/Button'
-import { Separator } from './react-aria/Separator'
-import { Checkbox } from './react-aria/Checkbox'
-import './App.css'
 import { OutputSelector } from './components/OutputSelector'
 import { InputSelector } from './components/InputSelector'
 import { useSpotifyLogin } from './api/spotify'
-import { Input, TextArea } from './react-aria/Field'
-import { useState } from 'react'
+import LoggedInToolbar from './components/LoggedInToolbar'
+
+import './App.css'
 
 function App() {
   const {
@@ -18,9 +13,10 @@ function App() {
     logout,
   } = useSpotifyLogin()
 
-  const [output, setOutput] = useState<string>()
+  const args = new URLSearchParams(window.location.search)
+  const code = args.get('code')
 
-  if (!authorized) {
+  if (!authorized && !code) {
     return (
       <Button onPress={authorizeWithSpotify}>
         Log into Spotify
@@ -29,12 +25,9 @@ function App() {
   }
   return (
     <>
-      <Button onPress={logout}>
-        Logout
-      </Button>
+      <LoggedInToolbar onLogout={logout}/>
       <InputSelector/>
-      <OutputSelector setOutput={setOutput} />
-      <TextArea className="w-full min-h-80" defaultValue={output} />
+      <OutputSelector />
     </>
   )
 }

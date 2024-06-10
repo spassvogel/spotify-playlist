@@ -1,82 +1,30 @@
-import { Form } from "../react-aria/Form"
-import { Tab, TabList, TabPanel, Tabs } from "../react-aria/Tabs"
-import { Button } from "../react-aria/Button"
-import { Checkbox } from "../react-aria/Checkbox"
-import { sdk } from "../api/spotify"
-import { MaxInt, Page } from "@spotify/web-api-ts-sdk"
-import { serializeTrack } from "../output/markdown"
+import { Tab, TabList, Tabs } from "../react-aria/Tabs"
+import { Key } from "react-aria-components"
+import Markdown from "./output/Markdown"
 
-const MAX_COUNT = 50
-const getAll = async <TItem,>(endpoint: (limit?: MaxInt<typeof MAX_COUNT>, offset?: number) => Promise<Page<TItem>>) => {
-  const items: TItem[] = []
-
-  const fetchPage = async (offset = 0) => {
-    console.log(`Fetching page ${(1 + offset / MAX_COUNT).toFixed(0)}`)
-    const response = await endpoint(MAX_COUNT, offset)
-    items.push(...response.items)
-
-    if (response.next) {
-      await fetchPage(offset + MAX_COUNT)
-    }
-  }
-
-  // kick off fetch of first page
-  await fetchPage()
-  return items
-}
 
 type Props = {
-  setOutput: (value: string) => void
+  // setOutput: (value: string) => void
 }
-export const OutputSelector = ({ setOutput}: Props) => {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const data = Object.fromEntries(new FormData(event.currentTarget))
+export const OutputSelector = () => {
 
-    const savedTracks = await getAll((limit = MAX_COUNT, offset?: number) => {
-      return sdk.currentUser.tracks.savedTracks(limit, offset)
-    })
-    const tracks = savedTracks.map((sT) => sT.track)
-    const output = ['| Song | Artist |', '| --- | --- |']
-    output.push(...tracks.map(serializeTrack))
-    // console.log(`output`, output.join('\n'))
-    setOutput(output.join('\n'))
+  const handleTabChanged = (key: Key) => {
+    // console.log(`key`, key)
   }
 
   return (
-    <Tabs onSelectionChange={function Qa(){}}>
-    <TabList aria-label="History of Ancient Rome">
-      <Tab id="markdown">
-        Markdown
-      </Tab>
-    </TabList>
-    <TabPanel id="markdown">
-      <Form
-        onInvalid={function Qa(){}}
-        onReset={function Qa(){}}
-        onSubmit={handleSubmit}
-      >
-      <Checkbox name="artistLinks">
-        Artist hyperlinks
-      </Checkbox>
-      <Checkbox name="trackLinks">
-        Track hyperlinks
-      </Checkbox>
-      <div className="flex gap-2">
-        <Button type="submit">
-          Submit
-        </Button>
-        {/* <Button
-          type="reset"
-          variant="secondary"
-        >
-          Reset
-        </Button> */}
-      </div>
-    </Form>
-    </TabPanel>
-  </Tabs>
-)
+    <Tabs onSelectionChange={handleTabChanged} className="mt-5">
+      <TabList aria-label="output">
+        <Tab id="markdown">
+          Markdown
+        </Tab>
+        <Tab id="csv">
+          Spreadsheet (CSV)
+        </Tab>
+      </TabList>
+      <Markdown />
+    </Tabs>
+  )
 }
 
 
