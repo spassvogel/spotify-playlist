@@ -1,19 +1,15 @@
 import { Tab, TabList, Tabs } from "../react-aria/Tabs"
-import { Key } from "react-aria-components"
 import Markdown from "./output/Markdown"
 
 
-type Props = {
+// type Props = {
   // setOutput: (value: string) => void
-}
+// }
 export const OutputSelector = () => {
 
-  const handleTabChanged = (key: Key) => {
-    // console.log(`key`, key)
-  }
 
   return (
-    <Tabs onSelectionChange={handleTabChanged} className="mt-5">
+    <Tabs className="mt-5">
       <TabList aria-label="output">
         <Tab id="markdown">
           Markdown
