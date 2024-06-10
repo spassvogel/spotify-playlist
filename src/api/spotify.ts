@@ -7,10 +7,8 @@ export const sdk = SpotifyApi.withUserAuthorization(
   redirectUrl,
   ['user-read-private', 'user-read-email', 'user-library-read']
 )
-console.log(`(wouter left this in) redirectUrl`, redirectUrl);
 export const useSpotifyLogin = () => {
   const [authorized, setAuthorized] = useState(false)
-
 
   useEffect(() => {
     sdk.getAccessToken().then((token) => {

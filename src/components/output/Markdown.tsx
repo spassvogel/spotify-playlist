@@ -29,10 +29,18 @@ const Markdown = () => {
         className="p-4"
         onSubmit={handleSubmit}
       >
-        <Checkbox name="artistLinks">
+        <Checkbox
+          name="artistLinks"
+          defaultSelected={localStorage.getItem('markdown-option-artistLinks') === 'true'}
+          onChange={(value) => { localStorage.setItem('markdown-option-artistLinks', `${value}`); console.log(value) }}
+        >
           Artist hyperlinks
         </Checkbox>
-        <Checkbox name="trackLinks">
+        <Checkbox
+          name="trackLinks"
+          defaultSelected={localStorage.getItem('markdown-option-trackLinks') === 'true'}
+          onChange={(value) => { localStorage.setItem('markdown-option-trackLinks', `${value}`); console.log(value) }}
+        >
           Track hyperlinks
         </Checkbox>
         <div className="flex gap-2">

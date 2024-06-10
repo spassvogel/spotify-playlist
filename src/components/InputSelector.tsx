@@ -3,8 +3,7 @@ import { useState } from "react"
 
 export const InputSelector = () => {
   const [selectedKeys, setSelectedKeys] = useState<'all' | Set<string | number>>(new Set(['liked']));
-// console.log(`selectedKeys`, selectedKeys)
-// todo: download the playlists!
+  // todo: download the playlists!
 
   return (
     <ListBox
@@ -12,6 +11,7 @@ export const InputSelector = () => {
       selectionMode="single"
       selectedKeys={selectedKeys}
       onSelectionChange={setSelectedKeys}
+      disallowEmptySelection
     >
       <ListBoxItem id="liked">Liked songs</ListBoxItem>
     </ListBox>

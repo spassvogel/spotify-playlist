@@ -7,14 +7,13 @@ import Markdown from "./output/Markdown"
 // }
 export const OutputSelector = () => {
 
-
   return (
     <Tabs className="mt-5">
       <TabList aria-label="output">
         <Tab id="markdown">
           Markdown
         </Tab>
-        <Tab id="csv">
+        <Tab id="csv" isDisabled>
           Spreadsheet (CSV)
         </Tab>
       </TabList>

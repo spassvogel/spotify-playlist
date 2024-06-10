@@ -6,7 +6,7 @@ export const convertTracks = (trackData: Track[], config: { [k: string]: FormDat
   }
 
   const serializeTrackName = (trackData: Track) => {
-    if (config.artistLinks) {
+    if (config.trackLinks) {
       return `[${trackData.name}](${trackData.external_urls.spotify})`
     }
     return `${trackData.name}`

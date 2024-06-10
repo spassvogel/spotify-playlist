@@ -11,17 +11,17 @@ import { FieldErrorProps,
   TextArea as RACTextArea,
   Text,
   TextProps,
-  composeRenderProps } from "react-aria-components";
-import { twMerge } from 'tailwind-merge';
-import { composeTailwindRenderProps } from "./utils";
-import { fieldGroupStyles } from "./styles/field";
+  composeRenderProps } from "react-aria-components"
+import { twMerge } from 'tailwind-merge'
+import { composeTailwindRenderProps } from "./utils"
+import { fieldGroupStyles } from "./styles/field"
 
 export function Label(props: LabelProps) {
-  return <RACLabel {...props} className={twMerge('text-sm text-gray-500 dark:text-zinc-400 font-medium cursor-default w-fit', props.className)} />;
+  return <RACLabel {...props} className={twMerge('text-sm text-gray-500 dark:text-zinc-400 font-medium cursor-default w-fit', props.className)} />
 }
 
 export function Description(props: TextProps) {
-  return <Text {...props} slot="description" className={twMerge('text-sm text-gray-600', props.className)} />;
+  return <Text {...props} slot="description" className={twMerge('text-sm text-gray-600', props.className)} />
 }
 
 export function FieldError(props: FieldErrorProps) {
@@ -29,7 +29,7 @@ export function FieldError(props: FieldErrorProps) {
 }
 
 export function FieldGroup(props: GroupProps) {
-  return <Group {...props} className={composeRenderProps(props.className, (className, renderProps) => fieldGroupStyles({...renderProps, className}))} />;
+  return <Group {...props} className={composeRenderProps(props.className, (className, renderProps) => fieldGroupStyles({...renderProps, className}))} />
 }
 
 export function Input(props: InputProps) {
