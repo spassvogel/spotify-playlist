@@ -1,7 +1,7 @@
 import { MaxInt, Page, SpotifyApi } from "@spotify/web-api-ts-sdk"
 import { useEffect, useState } from "react"
 
-const redirectUrl = window.location.origin        // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = window.location.origin + import.meta.env.BASE_URL       // your redirect URL - must be localhost URL and/or HTTPS
 export const sdk = SpotifyApi.withUserAuthorization(
   import.meta.env.VITE_SPOTIFY_CLIENT_ID,
   redirectUrl,
