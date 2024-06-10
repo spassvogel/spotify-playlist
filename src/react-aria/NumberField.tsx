@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
 import {
   NumberField as AriaNumberField,
@@ -6,9 +6,10 @@ import {
   Button,
   ButtonProps,
   ValidationResult
-} from 'react-aria-components';
-import { Description, FieldError, FieldGroup, Input, Label, fieldBorderStyles } from './Field';
-import { composeTailwindRenderProps } from './utils';
+} from 'react-aria-components'
+import { Description, FieldError, FieldGroup, Input, Label } from './Field'
+import { composeTailwindRenderProps } from './utils'
+import { fieldBorderStyles } from './styles/field'
 
 export interface NumberFieldProps extends AriaNumberFieldProps {
   label?: string;
@@ -43,5 +44,7 @@ export function NumberField(
 }
 
 function StepperButton(props: ButtonProps) {
-  return <Button {...props} className="px-0.5 cursor-default text-gray-500 pressed:bg-gray-100 group-disabled:text-gray-200 dark:text-zinc-400 dark:pressed:bg-zinc-800 dark:group-disabled:text-zinc-600 forced-colors:group-disabled:text-[GrayText]" />
+  return <Button {...props}
+    className="px-0.5 cursor-default text-gray-500 pressed:bg-gray-100 group-disabled:text-gray-200 dark:text-zinc-400 dark:pressed:bg-zinc-800 dark:group-disabled:text-zinc-600 forced-colors:group-disabled:text-[GrayText]"
+  />
 }

@@ -4,11 +4,11 @@ import {
   TooltipProps as AriaTooltipProps,
   OverlayArrow,
   composeRenderProps
-} from 'react-aria-components';
-import { tv } from 'tailwind-variants';
+} from 'react-aria-components'
+import { tv } from 'tailwind-variants'
 
 export interface TooltipProps extends Omit<AriaTooltipProps, 'children'> {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const styles = tv({

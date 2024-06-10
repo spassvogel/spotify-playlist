@@ -7,15 +7,16 @@ import {
   DateSegment,
   DateValue,
   ValidationResult
-} from 'react-aria-components';
-import { tv } from 'tailwind-variants';
-import { Description, FieldError, Label, fieldGroupStyles } from './Field';
-import { composeTailwindRenderProps } from './utils';
+} from 'react-aria-components'
+import { tv } from 'tailwind-variants'
+import { Description, FieldError, Label } from './Field'
+import { composeTailwindRenderProps } from './utils'
+import { fieldGroupStyles } from './styles/field'
 
 export interface DateFieldProps<T extends DateValue> extends AriaDateFieldProps<T> {
-  label?: string;
-  description?: string;
-  errorMessage?: string | ((validation: ValidationResult) => string);
+  label?: string
+  description?: string
+  errorMessage?: string | ((validation: ValidationResult) => string)
 }
 
 export function DateField<T extends DateValue>(
@@ -28,7 +29,7 @@ export function DateField<T extends DateValue>(
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
     </AriaDateField>
-  );
+  )
 }
 
 const segmentStyles = tv({
@@ -44,12 +45,12 @@ const segmentStyles = tv({
       true: 'bg-blue-600 text-white dark:text-white forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]'
     }
   }
-});
+})
 
 export function DateInput(props: Omit<DateInputProps, 'children'>) {
   return (
     <AriaDateInput className={renderProps => fieldGroupStyles({...renderProps, class: 'block min-w-[150px] px-2 py-1.5 text-sm'})} {...props}>
       {(segment) => <DateSegment segment={segment} className={segmentStyles} />}
     </AriaDateInput>
-  );
+  )
 }

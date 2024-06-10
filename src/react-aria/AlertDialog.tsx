@@ -1,9 +1,9 @@
-import { AlertCircleIcon, InfoIcon } from "lucide-react";
-import React, { ReactNode } from "react";
-import { chain } from "react-aria";
-import { DialogProps, Heading } from "react-aria-components";
-import { Button } from "./Button";
-import { Dialog } from "./Dialog";
+import { AlertCircleIcon, InfoIcon } from "lucide-react"
+import{ ReactNode } from "react"
+import { chain } from "react-aria"
+import { DialogProps, Heading } from "react-aria-components"
+import { Button } from "./Button"
+import { Dialog } from "./Dialog"
 
 interface AlertDialogProps extends Omit<DialogProps, 'children'> {
   title: string,
@@ -54,5 +54,5 @@ export function AlertDialog({
         </>
       )}
     </Dialog>
-  );
+  )
 }

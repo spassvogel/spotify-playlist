@@ -1,9 +1,9 @@
 
-import { ToggleButton as RACToggleButton, ToggleButtonProps, composeRenderProps } from 'react-aria-components';
-import { tv } from 'tailwind-variants';
-import { focusRing } from './utils';
+import { ToggleButton as RACToggleButton, ToggleButtonProps, composeRenderProps } from 'react-aria-components'
+import { tv } from 'tailwind-variants'
+import { focusRing } from './utils'
 
-let styles = tv({
+const styles = tv({
   extend: focusRing,
   base: 'px-5 py-2 text-sm text-center transition rounded-lg border border-black/10 dark:border-white/10 forced-colors:border-[ButtonBorder] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] dark:shadow-none cursor-default forced-color-adjust-none',
   variants: {
@@ -15,7 +15,7 @@ let styles = tv({
       true: 'bg-gray-100 dark:bg-zinc-800 forced-colors:!bg-[ButtonFace] text-gray-300 dark:text-zinc-600 forced-colors:!text-[GrayText] border-black/5 dark:border-white/5 forced-colors:border-[GrayText]'
     }
   }
-});
+})
 
 export function ToggleButton(props: ToggleButtonProps) {
   return (
