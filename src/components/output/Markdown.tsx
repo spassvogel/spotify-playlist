@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button } from "../../react-aria/Button"
 import { Checkbox } from "../../react-aria/Checkbox"
 import { TextArea } from "../../react-aria/Field"
@@ -6,12 +6,16 @@ import { Form } from "../../react-aria/Form"
 import { TabPanel } from "../../react-aria/Tabs"
 import { MAX_COUNT, getAll, sdk } from "../../api/spotify"
 import { convertTracks } from "../../output/markdown"
+import CopyButton from "./CopyButton"
 
 const Markdown = () => {
   const [output, setOutput] = useState<string>()
+  const [loading, setLoading] = useState(false)
+  const outputRef = useRef<HTMLTextAreaElement>(null)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setLoading(true)
     const data = Object.fromEntries(new FormData(event.currentTarget))
 
     const savedTracks = await getAll((limit = MAX_COUNT, offset?: number) => {
@@ -21,6 +25,11 @@ const Markdown = () => {
 
     const output = convertTracks(tracks, data)
     setOutput(output)
+
+    outputRef.current?.focus()
+    outputRef.current?.select()
+    console.log(`outputRef.current`, outputRef.current)
+    setLoading(false)
   }
 
   return (
@@ -32,19 +41,23 @@ const Markdown = () => {
         <Checkbox
           name="artistLinks"
           defaultSelected={localStorage.getItem('markdown-option-artistLinks') === 'true'}
-          onChange={(value) => { localStorage.setItem('markdown-option-artistLinks', `${value}`); console.log(value) }}
+          onChange={(value) => { localStorage.setItem('markdown-option-artistLinks', `${value}`) }}
         >
           Artist hyperlinks
         </Checkbox>
         <Checkbox
           name="trackLinks"
           defaultSelected={localStorage.getItem('markdown-option-trackLinks') === 'true'}
-          onChange={(value) => { localStorage.setItem('markdown-option-trackLinks', `${value}`); console.log(value) }}
+          onChange={(value) => { localStorage.setItem('markdown-option-trackLinks', `${value}`) }}
         >
           Track hyperlinks
         </Checkbox>
         <div className="flex gap-2">
-          <Button type="submit" className="mt-3">
+          <Button
+            type="submit"
+            className="mt-3"
+            isDisabled={loading}
+          >
             Submit
           </Button>
         {/* <Button
@@ -55,8 +68,8 @@ const Markdown = () => {
       </Button> */}
       </div>
     </Form>
-    <TextArea className="w-full min-h-80 mt-4" defaultValue={output} />
-
+    <TextArea className="w-full min-h-80 mt-4" ref={outputRef} defaultValue={output} />
+    <CopyButton output={output} />
   </TabPanel>
 )
 }

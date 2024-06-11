@@ -36,7 +36,7 @@ export function Input(props: InputProps) {
   return <RACInput {...props} className={composeTailwindRenderProps(props.className, 'px-2 py-1.5 flex-1 min-w-0 outline outline-0 bg-white dark:bg-zinc-900 text-sm text-gray-800 dark:text-zinc-200 disabled:text-gray-200 dark:disabled:text-zinc-600')} />
 }
 
-export function TextArea(props: TextAreaProps) {
+export function TextArea(props: React.ComponentProps<typeof RACTextArea>) {
   return (
     <RACTextArea
       {...props}
