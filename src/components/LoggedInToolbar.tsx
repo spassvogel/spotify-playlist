@@ -19,11 +19,11 @@ const LoggedInToolbar = ({ onLogout }: Props) => {
   }, [])
 
   return (
-    <Toolbar aria-label="Text formatting" className="items-center mb-4">
+    <Toolbar aria-label="Text formatting" className="items-center mb-4 mr-1">
       <div className="rounded-full w-7 h-7 bg-gray-200 overflow-hidden flex-shrink-0">
         <img src={userProfile?.images[0]?.url} className="w-full h-full" />
       </div>
-      <div>
+      <div className="text-gray-800 dark:text-zinc-200">
         {userProfile?.display_name}
       </div>
       <div className="w-full"></div>
