@@ -2,10 +2,11 @@ import { Tab, TabList, Tabs } from "../react-aria/Tabs"
 import Markdown from "./output/Markdown"
 
 
-// type Props = {
-  // setOutput: (value: string) => void
-// }
-export const OutputSelector = () => {
+type Props = {
+  selectedInput: 'all' | Set<string | number>
+}
+
+export const OutputSelector = ({ selectedInput }: Props) => {
 
   return (
     <Tabs className="mt-5">
@@ -14,10 +15,10 @@ export const OutputSelector = () => {
           Markdown
         </Tab>
         <Tab id="csv" isDisabled>
-          Spreadsheet (CSV)
+          Spreadsheet (CSV) (coming soon)
         </Tab>
       </TabList>
-      <Markdown />
+      <Markdown selectedInput={selectedInput} />
     </Tabs>
   )
 }

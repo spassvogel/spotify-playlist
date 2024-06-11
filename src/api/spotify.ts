@@ -5,7 +5,7 @@ const redirectUrl = window.location.origin + import.meta.env.BASE_URL       // y
 export const sdk = SpotifyApi.withUserAuthorization(
   import.meta.env.VITE_SPOTIFY_CLIENT_ID,
   redirectUrl,
-  ['user-read-private', 'user-read-email', 'user-library-read']
+  ['user-read-private', 'playlist-read-private', 'user-library-read']
 )
 export const useSpotifyLogin = () => {
   const [authorized, setAuthorized] = useState(false)

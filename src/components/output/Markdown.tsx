@@ -7,21 +7,38 @@ import { TabPanel } from "../../react-aria/Tabs"
 import { MAX_COUNT, getAll, sdk } from "../../api/spotify"
 import { convertTracks } from "../../output/markdown"
 import CopyButton from "./CopyButton"
+import { Track } from "@spotify/web-api-ts-sdk"
 
-const Markdown = () => {
+type Props = {
+  selectedInput: 'all' | Set<string | number>
+}
+
+const Markdown = ({ selectedInput }: Props) => {
   const [output, setOutput] = useState<string>()
   const [loading, setLoading] = useState(false)
   const outputRef = useRef<HTMLTextAreaElement>(null)
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
     const data = Object.fromEntries(new FormData(event.currentTarget))
 
-    const savedTracks = await getAll((limit = MAX_COUNT, offset?: number) => {
-      return sdk.currentUser.tracks.savedTracks(limit, offset)
-    })
-    const tracks = savedTracks.map((sT) => sT.track)
+    if (selectedInput === 'all') {
+      return
+    }
+
+    const input = Array.from(selectedInput)[0]
+    let tracks: Track[] = []
+
+    if (input === 'liked') {
+      const savedTracks = await getAll((limit = MAX_COUNT, offset?: number) => {
+        return sdk.currentUser.tracks.savedTracks(limit, offset)
+      })
+      tracks = savedTracks.map((sT) => sT.track)
+    } else {
+      tracks = (await sdk.playlists.getPlaylist(`${input}`)).tracks.items.map(t => t.track)
+    }
 
     const output = convertTracks(tracks, data)
     setOutput(output)
@@ -60,12 +77,6 @@ const Markdown = () => {
           >
             Submit
           </Button>
-        {/* <Button
-        type="reset"
-        variant="secondary"
-        >
-        Reset
-      </Button> */}
       </div>
     </Form>
     <TextArea className="w-full min-h-80 mt-4" ref={outputRef} defaultValue={output} />

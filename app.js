@@ -12,12 +12,11 @@ const redirectUrl = window.location.origin;        // your redirect URL - must b
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
-const scope = 'user-read-private user-read-email user-library-read';
-// const scope = 'user-library-read';
+const scope = 'user-read-private user-library-read playlist-read-private'
 
 // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
-  get access_token() { return localStorage.getItem('access_token') || null; },
+  get access_token() { return localStorage.getItem('access_token') || null },
   get refresh_token() { return localStorage.getItem('refresh_token') || null; },
   get expires_in() { return localStorage.getItem('refresh_in') || null },
   get expires() { return localStorage.getItem('expires') || null },
