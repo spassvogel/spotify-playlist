@@ -1,7 +1,7 @@
 
-import { composeRenderProps, Button as RACButton, ButtonProps as RACButtonProps } from 'react-aria-components';
-import { tv } from 'tailwind-variants';
-import { focusRing } from './utils';
+import { composeRenderProps, Button as RACButton, ButtonProps as RACButtonProps } from 'react-aria-components'
+import { tv } from 'tailwind-variants'
+import { focusRing } from './utils'
 
 export interface ButtonProps extends RACButtonProps {
   variant?: 'primary' | 'secondary' | 'destructive' | 'icon'
@@ -24,7 +24,7 @@ const button = tv({
   defaultVariants: {
     variant: 'primary'
   }
-});
+})
 
 export function Button(props: ButtonProps) {
   return (
@@ -34,5 +34,5 @@ export function Button(props: ButtonProps) {
         props.className,
         (className, renderProps) => button({...renderProps, variant: props.variant, className})
       )} />
-  );
+  )
 }
