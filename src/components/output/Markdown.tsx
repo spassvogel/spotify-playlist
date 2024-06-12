@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { Button } from "../../react-aria/Button"
 import { Checkbox } from "../../react-aria/Checkbox"
 import { TextArea } from "../../react-aria/Field"
@@ -42,12 +42,27 @@ const Markdown = ({ selectedInput }: Props) => {
 
     const output = convertTracks(tracks, data)
     setOutput(output)
-
-    outputRef.current?.focus()
-    outputRef.current?.select()
-    console.log(`outputRef.current`, outputRef.current)
     setLoading(false)
   }
+
+  useLayoutEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>
+    console.log(`outputRef.current`, outputRef.current)
+    if (output && outputRef.current) {
+      outputRef.current.focus()
+      outputRef.current.select()
+
+      timeout = setTimeout(() => {
+        outputRef.current?.focus()
+        outputRef.current?.select()
+        console.log('focus')
+      }, 20)
+    }
+
+    return () => {
+      // clearTimeout(timeout)
+    }
+  }, [output])
 
   return (
     <TabPanel id="markdown" className="p-0">
@@ -79,7 +94,7 @@ const Markdown = ({ selectedInput }: Props) => {
           </Button>
       </div>
     </Form>
-    <TextArea className="w-full min-h-80 mt-4" ref={outputRef} defaultValue={output} />
+    <TextArea className="w-full min-h-80 mt-4" ref={outputRef} defaultValue={output}/>
     <CopyButton output={output} />
   </TabPanel>
 )

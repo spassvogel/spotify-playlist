@@ -33,7 +33,7 @@ export const InputSelector = ({ selectedInput, setSelectedInput }: Props) => {
     >
       <ListBoxItem id="liked">Liked songs</ListBoxItem>
       {(data?.items ?? []).map((pl) => (
-        <ListBoxItem id={pl.id} textValue={pl.name}>
+        <ListBoxItem id={pl.id} textValue={pl.name} key={pl.id}>
           <div className="whitespace-nowrap overflow-auto truncate shrink-0">{pl.name}</div>
           <div className="whitespace-nowrap overflow-auto truncate text-gray-500">{pl.description}</div>
         </ListBoxItem>

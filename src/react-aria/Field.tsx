@@ -14,6 +14,7 @@ import { FieldErrorProps,
 import { twMerge } from 'tailwind-merge'
 import { composeTailwindRenderProps } from "./utils"
 import { fieldGroupStyles } from "./styles/field"
+import { LegacyRef, forwardRef } from "react"
 
 export function Label(props: LabelProps) {
   return <RACLabel {...props} className={twMerge('text-sm text-gray-500 dark:text-zinc-400 font-medium cursor-default w-fit', props.className)} />
@@ -35,11 +36,13 @@ export function Input(props: InputProps) {
   return <RACInput {...props} className={composeTailwindRenderProps(props.className, 'px-2 py-1.5 flex-1 min-w-0 outline outline-0 bg-white dark:bg-zinc-900 text-sm text-gray-800 dark:text-zinc-200 disabled:text-gray-200 dark:disabled:text-zinc-600')} />
 }
 
-export function TextArea(props: React.ComponentProps<typeof RACTextArea>) {
+export const TextArea = forwardRef((props: React.ComponentProps<typeof RACTextArea>, ref: LegacyRef<HTMLTextAreaElement> | undefined) => {
   return (
     <RACTextArea
       {...props}
+      ref={ref}
       className={composeTailwindRenderProps(props.className, 'px-2 py-1.5 flex-1 min-w-0 outline outline-0 bg-white dark:bg-zinc-900 text-sm text-gray-800 dark:text-zinc-200 disabled:text-gray-200 dark:disabled:text-zinc-600')}
     />
   )
-}
+})
+
