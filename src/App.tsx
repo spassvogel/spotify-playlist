@@ -15,7 +15,7 @@ function App() {
     authorizeWithSpotify,
     logout,
   } = useSpotifyLogin()
-  const [selectedInput, setSelectedInput] = useState<'all' | Set<string | number>>(new Set(['liked']));
+  const [selectedInput, setSelectedInput] = useState<'all' | Set<string | number>>(new Set(['liked']))
 
   const args = new URLSearchParams(window.location.search)
   const code = args.get('code')
